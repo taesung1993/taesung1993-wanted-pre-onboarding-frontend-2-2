@@ -5,7 +5,7 @@ const Container = styled.article`
   height: 100vh;
   display: grid;
   grid-template-columns: 320px 1fr;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.grey};
 `;
 
 export default Container;

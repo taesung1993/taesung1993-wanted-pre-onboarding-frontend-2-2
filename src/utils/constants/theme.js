@@ -14,6 +14,11 @@ const theme = {
       font-size: 16px;
       line-height: 19px;
     `,
+    head_26: `
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 30px;
+    `,
     body_12: `
       font-weight: 500;
       font-size: 12px;
@@ -23,6 +28,11 @@ const theme = {
       font-weight: 700;
       font-size: 12px;
       line-height: 14px;
+    `,
+    body_14: `
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
     `
   }
 };
@@ -56,10 +66,14 @@ export const setFontStyle = (fontStyle) => {
   switch (fontStyle) {
     case 'head_16':
       return theme.fontStyles.head_16;
+    case 'head_26':
+      return theme.fontStyles.head_26;
     case 'body_12':
       return theme.fontStyles.body_12;
     case 'body_12_bold':
       return theme.fontStyles.body_12;
+    case 'body_14':
+      return theme.fontStyles.body_14;
     default:
       throw new Error(
         `${JSON.stringify(

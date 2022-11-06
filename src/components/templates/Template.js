@@ -6,13 +6,13 @@ export default function Template({ children }) {
   return (
     <Atoms.Container>
       <section>
-        <aside style={{ height: '100%' }}>
+        <aside style={{ height: '100%', backgroundColor: '#fff' }}>
           <Organisms.Gnb />
         </aside>
       </section>
       <section>
         <header>
-          <h1>헤더</h1>
+          <Organisms.Header />
         </header>
         <main>{children}</main>
       </section>
