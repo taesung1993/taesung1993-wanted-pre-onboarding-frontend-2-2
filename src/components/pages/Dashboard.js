@@ -1,9 +1,10 @@
 import React from 'react';
+import Template from '../templates/Template';
 
 export default function Dashboard() {
   return (
-    <article>
-      <h1>대시보드</h1>
-    </article>
+    <Template>
+      <section>대시보드</section>
+    </Template>
   );
 }

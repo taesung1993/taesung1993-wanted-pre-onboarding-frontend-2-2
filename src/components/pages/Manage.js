@@ -1,9 +1,10 @@
 import React from 'react';
+import Template from '../templates/Template';
 
 export default function Manage() {
   return (
-    <article>
-      <h1>광고 관리</h1>
-    </article>
+    <Template>
+      <section>광고 관리</section>
+    </Template>
   );
 }
