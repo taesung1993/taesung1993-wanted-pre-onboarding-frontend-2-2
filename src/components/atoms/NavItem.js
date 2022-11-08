@@ -5,6 +5,7 @@ const NavItem = styled(NavLink)`
   text-decoration: none;
   display: flex;
   align-items: center;
+  gap: 12px;
   padding: 18px 20px;
   background: #fff;
   border-radius: 10px;
