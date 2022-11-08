@@ -7,6 +7,7 @@ export default function DropDown() {
   const list = useRecoilValue(Store.serviceTypesState);
   const setSelectedId = useSetRecoilState(Store.selectedServiceTypeIdState);
   const selectedType = useRecoilValue(Store.selectedServiceTypeState);
+
   const [hover, setHover] = useState(false);
   const onSelect = (item) => {
     setSelectedId(item.key);
