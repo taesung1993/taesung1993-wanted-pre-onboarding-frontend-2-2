@@ -15,6 +15,17 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
+  g.axis {
+    &.x {
+      line {
+        /* display: none; */
+      }
+    }
+
+    path {
+      display: none;
+    }
+  }
 `;
 
 export default GlobalStyle;
