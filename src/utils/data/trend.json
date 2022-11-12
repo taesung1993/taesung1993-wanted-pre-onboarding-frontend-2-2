@@ -3,7 +3,7 @@
     "daily": [
       {
         "imp": 51479,
-        "click": 559,
+        "click": 0,
         "cost": 371790,
         "conv": 37,
         "convValue": 3668610,
@@ -120,7 +120,7 @@
       },
       {
         "imp": 98608,
-        "click": 791,
+        "click": 0,
         "cost": 408249,
         "conv": 34,
         "convValue": 1596185,
