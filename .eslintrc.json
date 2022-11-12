@@ -21,6 +21,7 @@
     "import/no-unresolved": ["error", { "commonjs": true, "amd": true }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
     "no-useless-escape": ["error"],
+    "no-unused-vars": ["warn"],
     "linebreak-style": [0, "error", "windows"],
     "react/destructuring-assignment": ["error", "always"],
     "jsx-quotes": ["error", "prefer-single"],
