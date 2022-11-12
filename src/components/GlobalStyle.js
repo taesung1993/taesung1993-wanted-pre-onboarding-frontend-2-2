@@ -16,9 +16,27 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
   g.axis {
-    &.x {
-      line {
-        /* display: none; */
+    &.y {
+      g {
+        &:first-of-type {
+          text {
+            display: none;
+          }
+        }
+
+        text {
+          text-anchor: start;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 14px;
+          transform: translateY(10px);
+          color: #94A2AD;
+        }
+        line {
+          stroke-width: 0.5;
+          stroke: #94A2AD;
+          /* display: none; */
+        }
       }
     }
 

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { scaleBand } from 'd3';
 import getDataType, { isKeyInObject } from '../common';
 
 class LineGraphService {
@@ -12,77 +13,93 @@ class LineGraphService {
 
   #yScale = null;
 
-  #data = new Map();
+  #data = [];
 
-  #options = { keyName: 'name', valueName: 'value' };
+  #options = { xLabel: 'name', yLabel: 'value' };
 
-  constructor(element) {
-    if (!this.#isElementType(element)) {
-      throw new Error('HTML 태그를 삽입해주세요.');
-    }
-    this.#init(element);
-    this.#setScale();
-  }
+  constructor(element, data) {
+    this.#container = element;
+    this.#container.style.maxWidth = `${element.clientWidth}px`;
 
-  #isElementType(el) {
-    return el instanceof HTMLElement;
-  }
+    this.#container.style.overflowX = 'scroll';
+    this.#container.style.overflowY = 'hidden';
 
-  #init(el) {
-    this.#container = d3.select(el);
-    this.#container.select('svg').remove();
+    this.#data = data
+      .map((d) => ({
+        click: d.click,
+        date: new Date(d.date)
+      }))
+      .sort((a, b) => a.date - b.date);
+
     this.#size = {
-      width: this.#container.node().clientWidth,
-      height: this.#container.node().clientHeight
+      width: this.#data.length * 100,
+      height: element.clientHeight
     };
-    this.#svg = this.#container
+
+    this.#svg = d3
+      .select(this.#container)
+      .call((g) => {
+        g.select('svg').remove();
+      })
       .append('svg')
-      .style('position', 'absolute')
-      .style('top', 0)
-      .style('left', 0)
-      .attr('width', this.#size.width)
-      .attr('height', this.#size.height)
-      .append('g')
-      .attr('transform', 'translate(0, 0)');
-  }
+      .attr('viewBox', `0 0 ${this.#size.width} ${this.#size.height}`)
+      .style('width', `${this.#size.width}px`)
+      .style('height', `${this.#size.height}px`);
 
-  setData(data, options = null) {
-    if (getDataType(data) !== 'Array') {
-      throw new Error('data는 배열 형태로 들어와야 합니다.');
-    }
-
-    if (options) {
-      if (getDataType(options) !== 'Object') {
-        throw new Error(
-          `options는 ${JSON.stringify(this.#options)} 형식만 가능합니다.`
-        );
-      }
-
-      if (
-        !isKeyInObject(options, 'keyName') ||
-        !isKeyInObject(options, 'valueName')
-      ) {
-        throw new Error(
-          `options는 ${JSON.stringify(this.#options)} 형식만 가능합니다.`
-        );
-      }
-
-      this.#options = options;
-    }
-
-    this.#data.set(this.#options.keyName, data);
-
-    return this;
-  }
-
-  #setScale() {
-    this.#xScale = d3
+    const xScale = d3
       .scaleBand()
-      .rangeRound([this.#size.width, 0])
-      .paddingOuter(0)
-      .align(0);
+      .domain(this.#data.map((el) => el.date))
+      .range([0, 100 * this.#data.length]);
 
-    this.#yScale = d3.scaleLinear().range([this.#size.height - 30, 0]);
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, 3000])
+      .range([this.#size.height - 20, 20]);
+
+    const line = d3
+      .line()
+      .x((d) => {
+        const xPosition = xScale(d.date);
+        const space = xScale.bandwidth() / 2;
+        return xPosition + space;
+      })
+      .y((d) => yScale(d.click));
+
+    this.#svg
+      .append('g')
+      .attr('class', 'axis x')
+      .attr('transform', `translate(0, ${this.#size.height - 20})`)
+      .call(
+        d3
+          .axisBottom(xScale)
+          .ticks(this.#data.length)
+          .tickFormat((d) => {
+            const obj = new Date(d);
+            const month = obj.getMonth() + 1;
+            const date = obj.getDate();
+            return `${month}월 ${date}일`;
+          })
+      );
+
+    this.#svg
+      .append('g')
+      .attr('class', 'axis y')
+      .attr('transform', `translate(${0}, 0)`)
+      .call(
+        d3
+          .axisLeft(yScale)
+          .ticks(6)
+          .tickSize(this.#size.width * -1)
+          .tickPadding(-10)
+      );
+
+    this.#svg
+      .append('path')
+      .datum(this.#data)
+      .attr('fill', 'none')
+      .attr('stroke', '#4FADF7')
+      .attr('stroke-width', 2)
+      .attr('d', line);
   }
 }
 
