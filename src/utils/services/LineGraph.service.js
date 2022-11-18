@@ -1,6 +1,4 @@
 import * as d3 from 'd3';
-import { scaleBand } from 'd3';
-import getDataType, { isKeyInObject } from '../common';
 
 class LineGraphService {
   #container = null;
@@ -9,27 +7,14 @@ class LineGraphService {
 
   #size = null;
 
-  #xScale = null;
-
-  #yScale = null;
-
   #data = [];
-
-  #options = { xLabel: 'name', yLabel: 'value' };
 
   constructor(element, data) {
     this.#container = element;
-    this.#container.style.maxWidth = `${element.clientWidth}px`;
-
     this.#container.style.overflowX = 'scroll';
     this.#container.style.overflowY = 'hidden';
 
-    this.#data = data
-      .map((d) => ({
-        click: d.click,
-        date: new Date(d.date)
-      }))
-      .sort((a, b) => a.date - b.date);
+    this.#data = data;
 
     this.#size = {
       width: this.#data.length * 100,
@@ -45,16 +30,33 @@ class LineGraphService {
       .attr('viewBox', `0 0 ${this.#size.width} ${this.#size.height}`)
       .style('width', `${this.#size.width}px`)
       .style('height', `${this.#size.height}px`);
+  }
+
+  mainDraw(keyword) {
+    this.#drawGraph('main', keyword, '#4FADF7');
+  }
+
+  subDraw(keyword) {
+    this.#drawGraph('sub', keyword, '#85DA47');
+  }
+
+  #drawGraph(name, keyword, color) {
+    const data = [...this.#data]
+      .map((d) => ({
+        [keyword]: d[keyword],
+        date: new Date(d.date)
+      }))
+      .sort((a, b) => a.date - b.date);
 
     const xScale = d3
       .scaleBand()
-      .domain(this.#data.map((el) => el.date))
-      .range([0, 100 * this.#data.length]);
+      .domain(data.map((el) => el.date))
+      .range([0, 100 * data.length]);
 
     const yScale = d3
       .scaleLinear()
       .domain([0, 3000])
-      .range([this.#size.height - 20, 20]);
+      .range([this.#size.height - 20, 0]);
 
     const line = d3
       .line()
@@ -63,16 +65,20 @@ class LineGraphService {
         const space = xScale.bandwidth() / 2;
         return xPosition + space;
       })
-      .y((d) => yScale(d.click));
+      .y((d) => yScale(d[keyword]));
 
-    this.#svg
+    this.#svg.select(`g.${name}`).remove();
+
+    const graph = this.#svg.append('g').attr('class', name);
+
+    graph
       .append('g')
       .attr('class', 'axis x')
       .attr('transform', `translate(0, ${this.#size.height - 20})`)
       .call(
         d3
           .axisBottom(xScale)
-          .ticks(this.#data.length)
+          .ticks(data.length)
           .tickFormat((d) => {
             const obj = new Date(d);
             const month = obj.getMonth() + 1;
@@ -81,7 +87,7 @@ class LineGraphService {
           })
       );
 
-    this.#svg
+    graph
       .append('g')
       .attr('class', 'axis y')
       .attr('transform', `translate(${0}, 0)`)
@@ -93,13 +99,15 @@ class LineGraphService {
           .tickPadding(-10)
       );
 
-    this.#svg
+    graph
       .append('path')
-      .datum(this.#data)
+      .datum(data)
       .attr('fill', 'none')
-      .attr('stroke', '#4FADF7')
+      .attr('stroke', color)
       .attr('stroke-width', 2)
       .attr('d', line);
+
+    return this;
   }
 }
 

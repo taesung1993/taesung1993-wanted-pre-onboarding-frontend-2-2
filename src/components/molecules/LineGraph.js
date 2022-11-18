@@ -1,25 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LineGraphService from '../../utils/services/LineGraph.service';
 import TrendData from '../../utils/data/trend.json';
+import useLineGraph from '../../utils/hooks/useLineGraph';
 
 const data = TrendData.report.daily;
+
 export default function LineGraph() {
-  const ref = useRef();
+  const { ref, graph, mainDraw, subDraw } = useLineGraph(data);
 
   useEffect(() => {
-    if (ref.current) {
-      const graph = new LineGraphService(ref.current, data);
-      console.log('use Effect');
+    if (graph) {
+      mainDraw('roas');
+      subDraw('click');
+      mainDraw('cpc');
     }
-  }, [ref.current]);
+  }, [graph]);
+
   return (
     <section
       ref={ref}
       style={{
         position: 'relative',
         width: '100%',
-        height: 0,
-        paddingBottom: '28.5%',
+        height: 274,
         backgroundColor: '#fff'
       }}
     />

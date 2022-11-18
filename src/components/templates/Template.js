@@ -5,12 +5,20 @@ import Organisms from '../organisms';
 export default function Template({ children }) {
   return (
     <Atoms.Container>
-      <section>
+      <section
+        style={{
+          width: '320px'
+        }}
+      >
         <aside style={{ height: '100%', backgroundColor: '#fff' }}>
           <Organisms.Gnb />
         </aside>
       </section>
-      <section>
+      <section
+        style={{
+          width: 'calc(100vw - 320px)'
+        }}
+      >
         <header>
           <Organisms.Header />
         </header>
