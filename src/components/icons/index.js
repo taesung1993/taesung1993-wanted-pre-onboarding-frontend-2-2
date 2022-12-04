@@ -5,6 +5,7 @@ import Guide from './Guide';
 import Alarm from './Alarm';
 import Setting from './Setting';
 import Profile from './Profile';
+import ArrowDown from './ArrowDown';
 
 export default {
   Logo,
@@ -13,5 +14,6 @@ export default {
   Guide,
   Alarm,
   Setting,
-  Profile
+  Profile,
+  ArrowDown
 };
