@@ -8,6 +8,7 @@ import Hr from './Hr';
 import Select from './Select';
 import OptionGroup from './OptionGroup';
 import NavItem from './NavItem';
+import Circle from './Circle';
 
 export default {
   Container,
@@ -19,5 +20,6 @@ export default {
   Hr,
   Select,
   OptionGroup,
-  NavItem
+  NavItem,
+  Circle
 };
