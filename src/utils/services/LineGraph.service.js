@@ -75,9 +75,12 @@ class LineGraphService {
       .append('g')
       .attr('class', 'axis x')
       .attr('transform', `translate(0, ${this.#size.height - 20})`)
+      .style('color', '#94A2AD')
       .call(
         d3
           .axisBottom(xScale)
+          .tickPadding(5)
+          .tickSizeInner(0)
           .ticks(data.length)
           .tickFormat((d) => {
             const obj = new Date(d);
