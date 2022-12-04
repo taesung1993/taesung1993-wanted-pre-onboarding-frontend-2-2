@@ -2,11 +2,14 @@ const theme = {
   colors: {
     grey: '#F6F7F8',
     grey50: '#EDEFF1',
+    grey100: '#D1D8DC',
     grey300: '#94A2AD',
     grey800: '#3A474E',
     primary: '#586CF5',
     secondary_01: '#E5F4FD',
-    white: '#FFFFFF'
+    white: '#FFFFFF',
+    graph_01: '#4FADF7',
+    graph_02: '#85DA47'
   },
   fontStyles: {
     head_16: `
