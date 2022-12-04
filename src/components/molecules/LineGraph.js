@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import LineGraphService from '../../utils/services/LineGraph.service';
+import React, { useEffect } from 'react';
 import TrendData from '../../utils/data/trend.json';
 import useLineGraph from '../../utils/hooks/useLineGraph';
 
